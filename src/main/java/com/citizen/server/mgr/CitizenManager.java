@@ -25,27 +25,6 @@ public class CitizenManager {
     @Autowired
     private WitnessService witnessService;
 
-//    public VCitizen createCitizen(VCitizen vCitizen) {
-//        VCitizen savedCitizen = citizenService.createResource(vCitizen);
-//        System.out.println(savedCitizen);
-//        List<VFamilyMember> retMembers = new ArrayList<>();
-//        for (VFamilyMember familyMember : vCitizen.getFamilyMembers()) {
-//            System.out.println(savedCitizen.getId() + "  saved citizen id");
-//            familyMember.setCitizenId(savedCitizen.getId());
-//            VFamilyMember savedMember = familyMemberService.createResource(familyMember);
-//            retMembers.add(savedMember);
-//        }
-////        for (VWitness witness : vCitizen.getWitnesses()) {
-////            System.out.println(savedCitizen.getId() + "saved citizen id");
-////            witness.setCitizenId(savedCitizen.getId());
-////            VWitness savedWitness = witnessService.createResource(witness);
-////            System.out.println("this is saved witness" + savedWitness);
-////            witnessList.add(savedWitness);
-////        }
-//        vCitizen.setFamilyMembers(retMembers);
-//        return savedCitizen;
-//    }
-
     public VCitizen createCitizen(VCitizen vCitizen, MultipartFile imageFile, MultipartFile nationalIdFile) throws IOException {
         return citizenService.createResource(vCitizen, imageFile, nationalIdFile);
     }

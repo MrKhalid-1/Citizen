@@ -73,15 +73,14 @@ public class CitizenService {
 //    }
 
     public VCitizen createResource(VCitizen vCitizen, MultipartFile imageFile, MultipartFile nationalIdFile) throws IOException {
-        TCitizen tCitizen = mapViewToEntity(vCitizen);
         String uniqueCode = generateRandomString(6);
+        TCitizen tCitizen = mapViewToEntity(vCitizen);
         tCitizen.setUniqueCode(uniqueCode);
-        sendCurrentPassword(uniqueCode,vCitizen.getEmail());
+        sendCurrentPassword(uniqueCode, vCitizen.getEmail());
         tCitizen.setStatus(AppConstants.Status.valueOf("PENDING"));
         TCitizen savedCitizen = citizenRepository.save(tCitizen);
         List<VFamilyMember> retMembers = new ArrayList<>();
         for (VFamilyMember familyMember : vCitizen.getFamilyMembers()) {
-            System.out.println(savedCitizen.getId() + "  saved citizen id");
             familyMember.setCitizenId(savedCitizen.getId());
             VFamilyMember savedMember = familyMemberService.createResource(familyMember);
             retMembers.add(savedMember);
@@ -97,7 +96,9 @@ public class CitizenService {
             String nationalIdPath = saveFile(nationalIdFile, "nationalId", savedCitizen.getId());
             savedCitizen.setNationalId(nationalIdPath);
         }
+
         savedCitizen = citizenRepository.save(savedCitizen);
+
         TUser tUser = new TUser();
         tUser.setName(vCitizen.getName());
         tUser.setUserName(vCitizen.getEmail());
@@ -110,6 +111,22 @@ public class CitizenService {
         return mapEntityToView(savedCitizen);
     }
 
+    private void sendCurrentPassword(String currentPassword, String email) {
+        String subject = "Unique Code Request";
+        String messageText = "Dear User,\n\nYour unique Code is: " + currentPassword
+                + "\n\nPlease consider your Code if you did not request this.";
+
+        try {
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setFrom(emailUsername);
+            message.setTo(email);
+            message.setSubject(subject);
+            message.setText(messageText);
+            mailSender.send(message);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to send email. Please try again later.", e);
+        }
+    }
 
     private String saveFile(MultipartFile file, String subFolder, Long citizenID) throws IOException {
         String fileName = citizenID + "_" + System.currentTimeMillis() + ".jpg";
@@ -255,20 +272,43 @@ public class CitizenService {
         return randomString.toString();
     }
 
-    private void sendCurrentPassword(String currentPassword, String email) {
-        String subject = "Unique Code Request";
-        String messageText = "Dear User,\n\nYour unique Code is: " + currentPassword
-                + "\n\nPlease consider your Code if you did not request this.";
-
-        try {
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setFrom(emailUsername);
-            message.setTo(email);
-            message.setSubject(subject);
-            message.setText(messageText);
-            mailSender.send(message);
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to send email. Please try again later.", e);
-        }
-    }
 }
+//    public VCitizen createResource(VCitizen vCitizen, MultipartFile imageFile, MultipartFile nationalIdFile) throws IOException {
+//        TCitizen tCitizen = mapViewToEntity(vCitizen);
+//        String uniqueCode = generateRandomString(6);
+//        tCitizen.setUniqueCode(uniqueCode);
+//        System.out.println(uniqueCode);
+//        sendCurrentPassword(uniqueCode,vCitizen.getEmail());
+//        tCitizen.setStatus(AppConstants.Status.valueOf("PENDING"));
+//        TCitizen savedCitizen = citizenRepository.save(tCitizen);
+//        List<VFamilyMember> retMembers = new ArrayList<>();
+//        for (VFamilyMember familyMember : vCitizen.getFamilyMembers()) {
+//            System.out.println(savedCitizen.getId() + "  saved citizen id");
+//            familyMember.setCitizenId(savedCitizen.getId());
+//            VFamilyMember savedMember = familyMemberService.createResource(familyMember);
+//            retMembers.add(savedMember);
+//        }
+//        vCitizen.setFamilyMembers(retMembers);
+//
+//        if (imageFile != null && !imageFile.isEmpty()) {
+//            String imagePath = saveFile(imageFile, "image", savedCitizen.getId());
+//            savedCitizen.setImage(imagePath);
+//        }
+//
+//        if (nationalIdFile != null && !nationalIdFile.isEmpty()) {
+//            String nationalIdPath = saveFile(nationalIdFile, "nationalId", savedCitizen.getId());
+//            savedCitizen.setNationalId(nationalIdPath);
+//        }
+//        savedCitizen = citizenRepository.save(savedCitizen);
+//        TUser tUser = new TUser();
+//        tUser.setName(vCitizen.getName());
+//        tUser.setUserName(vCitizen.getEmail());
+//        tUser.setEmail(vCitizen.getEmail());
+//        tUser.setPassword(uniqueCode);
+//        System.out.println(uniqueCode + "jo password ke pass aa rhe hai");
+//        tUser.setUserRole(AppConstants.UserRoles.CITIZEN);
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//        tUser.setCreatedDate(LocalDate.now().format(formatter));
+//        userRepo.save(tUser);
+//        return mapEntityToView(savedCitizen);
+//    }
