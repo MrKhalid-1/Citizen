@@ -60,17 +60,20 @@ public class TCitizen {
     @Column(name = "unique_code")
     private String uniqueCode;
 
+    @Column(name = "image")
+    private String image;
+
     @Column(name = "national_id")
     private String nationalId;
 
-    @Column(name = "residence_card")
-    private String residenceCard;
-
-    @Column(name = "passport")
-    private String passport;
-
-    @Column(name = "voter_id")
-    private String voterId;
+//    @Column(name = "residence_card")
+//    private String residenceCard;
+//
+//    @Column(name = "passport")
+//    private String passport;
+//
+//    @Column(name = "voter_id")
+//    private String voterId;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
@@ -151,36 +154,20 @@ public class TCitizen {
         this.uniqueCode = uniqueCode;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     public String getNationalId() {
         return nationalId;
     }
 
     public void setNationalId(String nationalId) {
         this.nationalId = nationalId;
-    }
-
-    public String getResidenceCard() {
-        return residenceCard;
-    }
-
-    public void setResidenceCard(String residenceCard) {
-        this.residenceCard = residenceCard;
-    }
-
-    public String getPassport() {
-        return passport;
-    }
-
-    public void setPassport(String passport) {
-        this.passport = passport;
-    }
-
-    public String getVoterId() {
-        return voterId;
-    }
-
-    public void setVoterId(String voterId) {
-        this.voterId = voterId;
     }
 
     public Status getStatus() {
@@ -211,10 +198,8 @@ public class TCitizen {
                 ", houseNumber='" + houseNumber + '\'' +
                 ", housingStatus=" + housingStatus +
                 ", uniqueCode='" + uniqueCode + '\'' +
+                ", image='" + image + '\'' +
                 ", nationalId='" + nationalId + '\'' +
-                ", residenceCard='" + residenceCard + '\'' +
-                ", passport='" + passport + '\'' +
-                ", voterId='" + voterId + '\'' +
                 ", status=" + status +
                 ", createdDate='" + createdDate + '\'' +
                 '}';

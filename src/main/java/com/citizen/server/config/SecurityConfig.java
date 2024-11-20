@@ -51,6 +51,8 @@ public class SecurityConfig {
                 .csrf().disable().authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/user/home").permitAll()
+                        .requestMatchers("/witness/image/**").permitAll()
+                        .requestMatchers("/citizen/image/**").permitAll()
                         .requestMatchers("/citizen/register").permitAll()
 //                        .requestMatchers("/user/add").permitAll()
                         .requestMatchers("/api/**").authenticated().requestMatchers("/**").permitAll())

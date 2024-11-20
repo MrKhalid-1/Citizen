@@ -20,10 +20,11 @@ public class VCitizen {
     @Enumerated(EnumType.STRING)
     private AppConstants.HousingStatus housingStatus;
     private String uniqueCode;
+    private String image;
     private String nationalId;
-    private String residenceCard;
-    private String passport;
-    private String voterId;
+//    private String residenceCard;
+//    private String passport;
+//    private String voterId;
     @Enumerated(EnumType.STRING)
     private AppConstants.Status status;
     private List<VFamilyMember> familyMembers;
@@ -102,36 +103,20 @@ public class VCitizen {
         this.uniqueCode = uniqueCode;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     public String getNationalId() {
         return nationalId;
     }
 
     public void setNationalId(String nationalId) {
         this.nationalId = nationalId;
-    }
-
-    public String getResidenceCard() {
-        return residenceCard;
-    }
-
-    public void setResidenceCard(String residenceCard) {
-        this.residenceCard = residenceCard;
-    }
-
-    public String getPassport() {
-        return passport;
-    }
-
-    public void setPassport(String passport) {
-        this.passport = passport;
-    }
-
-    public String getVoterId() {
-        return voterId;
-    }
-
-    public void setVoterId(String voterId) {
-        this.voterId = voterId;
     }
 
     public AppConstants.Status getStatus() {
@@ -170,10 +155,8 @@ public class VCitizen {
                 ", houseNumber='" + houseNumber + '\'' +
                 ", housingStatus=" + housingStatus +
                 ", uniqueCode='" + uniqueCode + '\'' +
+                ", image='" + image + '\'' +
                 ", nationalId='" + nationalId + '\'' +
-                ", residenceCard='" + residenceCard + '\'' +
-                ", passport='" + passport + '\'' +
-                ", voterId='" + voterId + '\'' +
                 ", status=" + status +
                 ", familyMembers=" + familyMembers +
                 ", createdDate='" + createdDate + '\'' +

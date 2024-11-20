@@ -22,6 +22,9 @@ public class TFamilyMember {
     @Column(name = "age")
     private Long age;
 
+    @Column(name = "image")
+    private String image;
+
    @Column(name = "created_at")
     private String createdDate;
 
@@ -70,6 +73,14 @@ public class TFamilyMember {
         this.createdDate = createdDate;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     @Override
     public String toString() {
         return "TFamilyMember{" +
@@ -77,6 +88,7 @@ public class TFamilyMember {
                 ", citizenId=" + citizenId +
                 ", name='" + name + '\'' +
                 ", age=" + age +
+                ", image='" + image + '\'' +
                 ", createdDate='" + createdDate + '\'' +
                 '}';
     }

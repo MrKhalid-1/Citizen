@@ -32,11 +32,12 @@
             <column name="unique_code" type="VARCHAR(255)">
                 <constraints nullable="false" unique="true"/>
             </column>
+            <column name="image" type="VARCHAR(255)"/>
             <column name="national_id" type="VARCHAR(255)"/>
-            <column name="residence_card" type="VARCHAR(255)"/>
-            <column name="ration_card" type="VARCHAR(255)"/>
-            <column name="passport" type="VARCHAR(255)"/>
-            <column name="voter_id" type="VARCHAR(255)"/>
+<!--            <column name="residence_card" type="VARCHAR(255)"/>-->
+<!--            <column name="ration_card" type="VARCHAR(255)"/>-->
+<!--            <column name="passport" type="VARCHAR(255)"/>-->
+<!--            <column name="voter_id" type="VARCHAR(255)"/>-->
             <column name="status" type="enum('PENDING','VERIFIED_BY_MUKHTAR','VERIFIED_BY_GOVERNOR','APPROVED','REJECTED')"  defaultValue='PENDING'>
             </column>
             <column name="created_at" type="date" defaultValueComputed="CURRENT_DATE">

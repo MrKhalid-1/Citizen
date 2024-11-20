@@ -9,6 +9,7 @@ public class VFamilyMember {
     private Long citizenId;
     private String name;
     private Long age;
+    private String image;
     private String createdDate;
 //    private byte[] photo;
 
@@ -51,6 +52,14 @@ public class VFamilyMember {
 
     public void setCreatedDate(String createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     @Override

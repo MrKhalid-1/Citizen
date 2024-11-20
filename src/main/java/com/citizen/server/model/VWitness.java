@@ -1,5 +1,6 @@
 package com.citizen.server.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 
@@ -9,8 +10,11 @@ public class VWitness {
     private Long citizenId;
     private String name;
     private String mobileNo;
+    private String image;
+    private String nationalId;
+    private String citizenSignature;
+    private String witnessSignature;
     //  private Blob Card;
-    private String card;
     private String createdDate;
 
     public Long getId() {
@@ -19,6 +23,14 @@ public class VWitness {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getCitizenId() {
+        return citizenId;
+    }
+
+    public void setCitizenId(Long citizenId) {
+        this.citizenId = citizenId;
     }
 
     public String getName() {
@@ -37,12 +49,36 @@ public class VWitness {
         this.mobileNo = mobileNo;
     }
 
-    public String getCard() {
-        return card;
+    public String getNationalId() {
+        return nationalId;
     }
 
-    public void setCard(String card) {
-        this.card = card;
+    public void setNationalId(String nationalId) {
+        this.nationalId = nationalId;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getCitizenSignature() {
+        return citizenSignature;
+    }
+
+    public void setCitizenSignature(String citizenSignature) {
+        this.citizenSignature = citizenSignature;
+    }
+
+    public String getWitnessSignature() {
+        return witnessSignature;
+    }
+
+    public void setWitnessSignature(String witnessSignature) {
+        this.witnessSignature = witnessSignature;
     }
 
     public String getCreatedDate() {
@@ -53,14 +89,6 @@ public class VWitness {
         this.createdDate = createdDate;
     }
 
-    public Long getCitizenId() {
-        return citizenId;
-    }
-
-    public void setCitizenId(Long citizenId) {
-        this.citizenId = citizenId;
-    }
-
     @Override
     public String toString() {
         return "VWitness{" +
@@ -68,7 +96,10 @@ public class VWitness {
                 ", citizenId=" + citizenId +
                 ", name='" + name + '\'' +
                 ", mobileNo='" + mobileNo + '\'' +
-                ", card='" + card + '\'' +
+                ", nationalId='" + nationalId + '\'' +
+                ", image='" + image + '\'' +
+                ", citizenSignature='" + citizenSignature + '\'' +
+                ", witnessSignature='" + witnessSignature + '\'' +
                 ", createdDate='" + createdDate + '\'' +
                 '}';
     }

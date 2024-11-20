@@ -29,8 +29,17 @@ public class TWitness {
     @Column(name = "mobile", nullable = false)
     private String mobileNo;
 
-    @Column(name = "card", nullable = false)
-    private String card;
+    @Column(name = "image")
+    private String image;
+
+    @Column(name = "national_id")
+    private String nationalId;
+
+    @Column(name = "citizen_signature")
+    private String citizenSignature;
+
+    @Column(name = "witness_signature")
+    private String witnessSignature;
 
     @Column(name = "created_at")
     private String createdDate;
@@ -41,6 +50,14 @@ public class TWitness {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getCitizenId() {
+        return citizenId;
+    }
+
+    public void setCitizenId(Long citizenId) {
+        this.citizenId = citizenId;
     }
 
     public String getName() {
@@ -59,12 +76,36 @@ public class TWitness {
         this.mobileNo = mobileNo;
     }
 
-    public String getCard() {
-        return card;
+    public String getNationalId() {
+        return nationalId;
     }
 
-    public void setCard(String card) {
-        this.card = card;
+    public void setNationalId(String nationalId) {
+        this.nationalId = nationalId;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getCitizenSignature() {
+        return citizenSignature;
+    }
+
+    public void setCitizenSignature(String citizenSignature) {
+        this.citizenSignature = citizenSignature;
+    }
+
+    public String getWitnessSignature() {
+        return witnessSignature;
+    }
+
+    public void setWitnessSignature(String witnessSignature) {
+        this.witnessSignature = witnessSignature;
     }
 
     public String getCreatedDate() {
@@ -74,24 +115,5 @@ public class TWitness {
     public void setCreatedDate(String createdDate) {
         this.createdDate = createdDate;
     }
-
-    public Long getCitizenId() {
-        return citizenId;
-    }
-
-    public void setCitizenId(Long citizenId) {
-        this.citizenId = citizenId;
-    }
-
-    @Override
-    public String toString() {
-        return "TWitness{" +
-                "id=" + id +
-                ", citizenId=" + citizenId +
-                ", name='" + name + '\'' +
-                ", mobileNo='" + mobileNo + '\'' +
-                ", card='" + card + '\'' +
-                ", createdDate='" + createdDate + '\'' +
-                '}';
-    }
 }
+

@@ -21,8 +21,13 @@
             <column name="mobile" type="varchar(12)">
                 <constraints nullable="false"/>
             </column>
-            <column name="card" type="varchar(20)">
-                <constraints nullable="false"/>
+            <column name="image" type="varchar(255)">
+            </column>
+            <column name="national_id" type="varchar(255)">
+            </column>
+            <column name="citizen_signature" type="varchar(255)">
+            </column>
+            <column name="witness_signature" type="varchar(255)">
             </column>
             <column name="created_at" type="date" defaultValueComputed="CURRENT_DATE">
                 <constraints nullable="false"/>

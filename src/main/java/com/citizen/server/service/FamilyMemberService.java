@@ -30,6 +30,7 @@ public class FamilyMemberService {
         vFamilyMember.setCitizenId(familyMember.getCitizenId());
         vFamilyMember.setName(familyMember.getName());
         vFamilyMember.setAge(familyMember.getAge());
+        vFamilyMember.setImage(familyMember.getImage());
         vFamilyMember.setCreatedDate(familyMember.getCreatedDate());
         return vFamilyMember;
     }

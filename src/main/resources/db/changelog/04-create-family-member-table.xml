@@ -19,6 +19,8 @@
                     </column>
                     <column name="age"  type="BIGINT">
                     </column>
+                    <column name="image" type="varchar(255)">
+                    </column>
                     <column name="created_at" type="date" defaultValueComputed="CURRENT_DATE">
                         <constraints nullable="false"/>
                     </column>
