@@ -3,8 +3,6 @@ package com.citizen.server.mgr;
 import com.citizen.server.common.AppConstants;
 import com.citizen.server.context.UserContextUtil;
 import com.citizen.server.model.VCitizen;
-import com.citizen.server.model.VFamilyMember;
-import com.citizen.server.model.VWitness;
 import com.citizen.server.service.CitizenService;
 import com.citizen.server.service.FamilyMemberService;
 import com.citizen.server.service.WitnessService;
@@ -13,7 +11,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -50,7 +47,6 @@ public class CitizenManager {
 //    }
 
     public VCitizen createCitizen(VCitizen vCitizen, MultipartFile imageFile, MultipartFile nationalIdFile) throws IOException {
-//
         return citizenService.createResource(vCitizen, imageFile, nationalIdFile);
     }
 
@@ -59,23 +55,12 @@ public class CitizenManager {
     }
 
     public byte[] getNationalIdImage(Long witnessID) throws IOException {
-        return  citizenService.getImage(witnessID.toString(), "nationalId");
+        return citizenService.getImage(witnessID.toString(), "nationalId");
     }
 
     public byte[] getFamilyMemberImage(Long witnessID) throws IOException {
-        return  citizenService.getImage(witnessID.toString(), "familyMember");
+        return citizenService.getImage(witnessID.toString(), "familyMember");
     }
-
-//    VCitizen savedCitizen = citizenService.createResources(vCitizen);
-//        Long citizenId = savedCitizen.getId();
-//        System.out.println(savedCitizen);
-//        List<VFamilyMember> retMembers = new ArrayList<>();
-//        for (VFamilyMember familyMember : vCitizen.getFamilyMembers()) {
-//            System.out.println(savedCitizen.getId() + "  saved citizen id");
-//            familyMember.setCitizenId(savedCitizen.getId());
-//            VFamilyMember savedMember = familyMemberService.createResource(familyMember);
-//            retMembers.add(savedMember);
-//        }
 
     public VCitizen getCitizenInfo(long id) {
         return citizenService.readResource(id);
@@ -98,7 +83,7 @@ public class CitizenManager {
             if (userRole.contains(AppConstants.UserRoles.CITIZEN.name())) {
                 VCitizen vCitizen = citizenService.searchByCitizen(userName);
                 return List.of(vCitizen);
-            }else {
+            } else {
                 return citizenService.search();
             }
         } catch (Throwable t) {
@@ -106,8 +91,6 @@ public class CitizenManager {
 
             throw new RuntimeException(errorMsg, t);
         }
-
-//        return citizenService.search();
     }
 
 }

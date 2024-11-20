@@ -25,7 +25,6 @@ public class WitnessController {
     @Autowired
     private WitnessManager witnessManager;
 
-
     @Tag(name = "Witness")
     @Operation(summary = "Add new witness")
     @PreAuthorize("hasRole('MUKHTAR')")
@@ -37,11 +36,8 @@ public class WitnessController {
             @RequestPart(value = "witnessSignature", required = false) MultipartFile witnessSignatureFile,
             @RequestPart(value = "citizenSignature", required = false) MultipartFile citizenSignatureFile) {
         try {
-            // Convert the JSON string to VWitness object
             ObjectMapper objectMapper = new ObjectMapper();
             VWitness vWitness = objectMapper.readValue(witnessJson, VWitness.class);
-
-            // Now process the saved witness and other files
             VWitness savedWitness = witnessManager.createWitness(vWitness, imageFile, nationalIdFile, witnessSignatureFile, citizenSignatureFile);
             return ResponseEntity.ok(savedWitness);
         } catch (IOException e) {
@@ -49,52 +45,17 @@ public class WitnessController {
         }
     }
 
-
-//    @Tag(name = "Witness")
-//    @Operation(summary = "Add new witness")
-//    @PreAuthorize("hasRole('MUKHTAR')")
-//    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-//    public ResponseEntity<?> createWitness(
-//            @RequestPart("witness") VWitness vWitness,
-//            @RequestPart(value = "image", required = false) MultipartFile imageFile,
-//            @RequestPart(value = "nationalId", required = false) MultipartFile nationalIdFile,
-//            @RequestPart(value = "witnessSignature", required = false) MultipartFile witnessSignatureFile,
-//            @RequestPart(value = "citizenSignature", required = false) MultipartFile citizenSignatureFile) {
-//        try {
-//            VWitness savedWitness = witnessManager.createWitness(vWitness, imageFile, nationalIdFile, witnessSignatureFile, citizenSignatureFile);
-//            return ResponseEntity.ok(savedWitness);
-//        } catch (IOException e) {
-//            return ResponseEntity.status(500).body("Error saving witness or images");
-//        }
-//    }
-
-//
-//    @Tag(name = "Witness")
-//    @Operation(summary = "Retrieve witness image")
-//    @RequestMapping(method = RequestMethod.GET , path = "/image/{witnessID}")
-//    public ResponseEntity<?> getWitnessImage(@PathVariable Long witnessID) {
-//        try {
-//            byte[] imageBytes = witnessManager.getWitnessImage(witnessID);
-//            return ResponseEntity.ok().body(imageBytes);
-//        } catch (IOException e) {
-//            return ResponseEntity.status(404).body("Image not found for witness ID: " + witnessID);
-//        }
-//    }
-
     @Tag(name = "Witness")
     @Operation(summary = "Retrieve witness image")
     @RequestMapping(method = RequestMethod.GET, path = "/image/{witnessID}")
     public ResponseEntity<?> getWitnessImage(@PathVariable Long witnessID) {
         try {
             byte[] imageBytes = witnessManager.getWitnessImage(witnessID);
-
-            // Set the content type to image/jpeg for a JPEG image
             HttpHeaders headers = new HttpHeaders();
             headers.add(HttpHeaders.CONTENT_TYPE, "image/jpeg");
-
             return ResponseEntity.ok()
-                    .headers(headers) // Add headers
-                    .body(imageBytes); // Send the image bytes in the response
+                    .headers(headers)
+                    .body(imageBytes);
         } catch (IOException e) {
             return ResponseEntity.status(404)
                     .body("Image not found for witness ID: " + witnessID);
@@ -107,14 +68,11 @@ public class WitnessController {
     public ResponseEntity<?> getNationalIdImage(@PathVariable Long witnessID) {
         try {
             byte[] imageBytes = witnessManager.getNationalIdImage(witnessID);
-
-            // Set the content type to image/jpeg for a JPEG image
             HttpHeaders headers = new HttpHeaders();
             headers.add(HttpHeaders.CONTENT_TYPE, "image/jpeg");
-
             return ResponseEntity.ok()
-                    .headers(headers) // Add headers
-                    .body(imageBytes); // Send the image bytes in the response
+                    .headers(headers)
+                    .body(imageBytes);
         } catch (IOException e) {
             return ResponseEntity.status(404)
                     .body("National ID image not found for witness ID: " + witnessID);
@@ -128,14 +86,11 @@ public class WitnessController {
     public ResponseEntity<?> getWitnessSignature(@PathVariable Long witnessID) {
         try {
             byte[] imageBytes = witnessManager.getWitnessSignature(witnessID);
-
-            // Set the content type to image/jpeg for a JPEG image
             HttpHeaders headers = new HttpHeaders();
             headers.add(HttpHeaders.CONTENT_TYPE, "image/jpeg");
-
             return ResponseEntity.ok()
-                    .headers(headers) // Add headers
-                    .body(imageBytes); // Send the image bytes in the response
+                    .headers(headers)
+                    .body(imageBytes);
         } catch (IOException e) {
             return ResponseEntity.status(404)
                     .body("Witness signature image  not found for witness ID: " + witnessID);
@@ -148,20 +103,17 @@ public class WitnessController {
     public ResponseEntity<?> getCitizenSignature(@PathVariable Long witnessID) {
         try {
             byte[] imageBytes = witnessManager.getCitizenSignature(witnessID);
-
-            // Set the content type to image/jpeg for a JPEG image
             HttpHeaders headers = new HttpHeaders();
             headers.add(HttpHeaders.CONTENT_TYPE, "image/jpeg");
 
             return ResponseEntity.ok()
-                    .headers(headers) // Add headers
-                    .body(imageBytes); // Send the image bytes in the response
+                    .headers(headers)
+                    .body(imageBytes);
         } catch (IOException e) {
             return ResponseEntity.status(404)
                     .body("Citizen signature image not found for witness ID: " + witnessID);
         }
     }
-
 
     @Tag(name = "Witness")
     @Operation(summary = "Get witness by citizenId ")

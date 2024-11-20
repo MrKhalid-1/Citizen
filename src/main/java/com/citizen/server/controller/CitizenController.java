@@ -2,7 +2,6 @@ package com.citizen.server.controller;
 
 import com.citizen.server.mgr.CitizenManager;
 import com.citizen.server.model.VCitizen;
-import com.citizen.server.model.VWitness;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,21 +33,13 @@ public class CitizenController {
     @Autowired
     private CitizenManager citizenManager;
 
-//    @Tag(name = "Citizen")
-//    @Operation(summary = "Register new citizen")
-//    @RequestMapping(method = RequestMethod.POST, path = "/register")
-//    public ResponseEntity<VCitizen> register(@RequestBody VCitizen vCitizen) {
-//        LOG.debug("==> addCitizen()");
-//        return ResponseEntity.ok(citizenManager.createCitizen(vCitizen));
-//    }
-
     @Tag(name = "Citizen")
     @Operation(summary = "Register new citizen")
-    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE , path = "/register")
+    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE, path = "/register")
     public ResponseEntity<?> createCitizen(
-            @RequestPart("citizen") String citizenJson,  // accept JSON as a string
+            @RequestPart("citizen") String citizenJson,
             @RequestPart(value = "image", required = false) MultipartFile imageFile,
-            @RequestPart(value = "nationalId", required = false) MultipartFile nationalIdFile){
+            @RequestPart(value = "nationalId", required = false) MultipartFile nationalIdFile) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             VCitizen vCitizen = objectMapper.readValue(citizenJson, VCitizen.class);
@@ -66,14 +56,11 @@ public class CitizenController {
     public ResponseEntity<?> getCitizenImage(@PathVariable Long citizenID) {
         try {
             byte[] imageBytes = citizenManager.getCitizenImage(citizenID);
-
-            // Set the content type to image/jpeg for a JPEG image
             HttpHeaders headers = new HttpHeaders();
             headers.add(HttpHeaders.CONTENT_TYPE, "image/jpeg");
-
             return ResponseEntity.ok()
-                    .headers(headers) // Add headers
-                    .body(imageBytes); // Send the image bytes in the response
+                    .headers(headers)
+                    .body(imageBytes);
         } catch (IOException e) {
             return ResponseEntity.status(404)
                     .body("Image not found for citizen ID: " + citizenID);
@@ -83,20 +70,17 @@ public class CitizenController {
     @Tag(name = "Citizen")
     @Operation(summary = "Retrieve Citizen national ID image")
     @RequestMapping(method = RequestMethod.GET, path = "/image/nationalId/{citizenID}")
-    public ResponseEntity<?> getNationalIdImage(@PathVariable Long witnessID) {
+    public ResponseEntity<?> getNationalIdImage(@PathVariable Long citizenID) {
         try {
-            byte[] imageBytes = citizenManager.getNationalIdImage(witnessID);
-
-            // Set the content type to image/jpeg for a JPEG image
+            byte[] imageBytes = citizenManager.getNationalIdImage(citizenID);
             HttpHeaders headers = new HttpHeaders();
             headers.add(HttpHeaders.CONTENT_TYPE, "image/jpeg");
-
             return ResponseEntity.ok()
-                    .headers(headers) // Add headers
-                    .body(imageBytes); // Send the image bytes in the response
+                    .headers(headers)
+                    .body(imageBytes);
         } catch (IOException e) {
             return ResponseEntity.status(404)
-                    .body("National ID image not found for Citizen ID: " + witnessID);
+                    .body("National ID image not found for Citizen ID: " + citizenID);
         }
     }
 
@@ -119,10 +103,6 @@ public class CitizenController {
 //                    .body("familyMember image not found for Citizen ID: " + citizenID);
 //        }
 //    }
-
-//
-
-
 
 
     @Tag(name = "Citizen")

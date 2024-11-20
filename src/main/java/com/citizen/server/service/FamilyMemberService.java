@@ -55,49 +55,4 @@ public class FamilyMemberService {
         }
         return familyMembers;
     }
-
-//    private final FamilyMemberRepo familyMemberRepository;
-//    private final CitizenRepo citizenRepository;
-
-//    @Autowired
-//    public FamilyMemberService(FamilyMemberRepo familyMemberRepository, CitizenRepo citizenRepository) {
-//        this.familyMemberRepository = familyMemberRepository;
-//        this.citizenRepository = citizenRepository;
-//    }
-//
-//    public TFamilyMember addFamilyMember(Long citizenId, TFamilyMember familyMember) {
-//        Optional<TCitizen> citizen = citizenRepository.findById(citizenId);
-//        if (citizen.isPresent()) {
-//            familyMember.setCitizen(citizen.get());
-//            return familyMemberRepository.save(familyMember);
-//        } else {
-//            throw new IllegalArgumentException("Citizen with ID " + citizenId + " not found.");
-//        }
-//    }
-
-//    public List<TFamilyMember> getFamilyMembersByCitizenId(Long citizenId) {
-//        return familyMemberRepository.findByCitizenId(citizenId);
-//    }
-
-//    public TFamilyMember updateFamilyMember(Long id, TFamilyMember familyMemberDetails) {
-//        Optional<TFamilyMember> familyMemberOptional = familyMemberRepository.findById(id);
-//        if (familyMemberOptional.isPresent()) {
-//            TFamilyMember familyMember = familyMemberOptional.get();
-//            familyMember.setName(familyMemberDetails.getName());
-//            familyMember.setAge(familyMemberDetails.getAge());
-//            familyMember.setPhoto(familyMemberDetails.getPhoto());
-//            return familyMemberRepository.save(familyMember);
-//        } else {
-//            throw new IllegalArgumentException("Family member with ID " + id + " not found.");
-//        }
-//    }
-//
-//    public void deleteFamilyMember(Long id) {
-//        if (familyMemberRepository.existsById(id)) {
-//            familyMemberRepository.deleteById(id);
-//        } else {
-//            throw new IllegalArgumentException("Family member with ID " + id + " not found.");
-//        }
-//    }
-
 }

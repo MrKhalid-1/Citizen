@@ -31,7 +31,6 @@ public class WitnessService {
         TWitness tWitness = mapViewToEntity(vWitness);
         TWitness tWitness1 = witnessRepository.save(tWitness);
 
-        // Save images and store their paths
         if (imageFile != null && !imageFile.isEmpty()) {
             String imagePath = saveFile(imageFile, "image", tWitness1.getId());
             tWitness1.setImage(imagePath);
@@ -56,30 +55,19 @@ public class WitnessService {
         return mapEntityToView(savedWitness);
     }
 
-    //    private String saveFile(MultipartFile file, String subFolder, Long witnessID) throws IOException {
-//        String fileName = witnessID + "_" + System.currentTimeMillis() + "_" + file.getOriginalFilename();
-//        Path filePath = Paths.get(storagePath, subFolder, fileName);
-//        Files.createDirectories(filePath.getParent()); // Ensure the directory exists
-//        file.transferTo(filePath.toFile()); // Save the file to disk
-//        return filePath.toString();
-//    }
-    private String saveFile(MultipartFile file, String subFolder, Long witnessID) throws IOException {
-        // Ensure the file is a .jpg image
-        if (!file.getOriginalFilename().endsWith(".jpg")) {
-            throw new IOException("Only .jpg files are allowed");
-        }
-
-        String fileName = witnessID + "_" + System.currentTimeMillis() + ".jpg"; // Save as .jpg
-        Path filePath = Paths.get(storagePath, subFolder, fileName);
-        Files.createDirectories(filePath.getParent()); // Ensure the directory exists
-        file.transferTo(filePath.toFile()); // Save the file to disk
-        return filePath.toString();
+    private String saveFile(MultipartFile file, String subFolder, Long citizenID) throws IOException {
+        String fileName = citizenID + "_" + System.currentTimeMillis() + ".jpg";
+        Path basePath = Paths.get(storagePath).toAbsolutePath();
+        Path filePath = basePath.resolve(subFolder).resolve(fileName);
+        Files.createDirectories(filePath.getParent());
+        file.transferTo(filePath.toFile());
+        return basePath.relativize(filePath).toString();
     }
 
 
     public byte[] getImage(String witnessID, String imageType) throws IOException {
         TWitness witness = witnessRepository.findById(Long.valueOf(witnessID))
-                .orElseThrow(() -> new IOException("Witness not found"));
+                .orElseThrow(() -> new IOException("Citizen not found"));
         String filePath = "";
         switch (imageType) {
             case "image":
@@ -89,18 +77,25 @@ public class WitnessService {
                 filePath = witness.getNationalId();
                 break;
             case "witnessSignature":
-                filePath = witness.getWitnessSignature();
+                filePath = witness.getNationalId();
                 break;
             case "citizenSignature":
-                filePath = witness.getCitizenSignature();
+                filePath = witness.getNationalId();
                 break;
+            default:
+                throw new IOException("Unknown image type: " + imageType);
         }
-
-        Path path = Paths.get(filePath);
-        if (Files.exists(path)) {
-            return Files.readAllBytes(path);
+        if (filePath == null || filePath.isEmpty()) {
+            throw new IOException(imageType + " path is empty or null for Citizen ID: " + witnessID);
+        }
+        if (filePath.startsWith("\\")) {
+            filePath = filePath.substring(1);
+        }
+        Path fullPath = Paths.get(storagePath, filePath).toAbsolutePath();
+        if (Files.exists(fullPath)) {
+            return Files.readAllBytes(fullPath);
         } else {
-            throw new IOException(imageType + " file not found");
+            throw new IOException(imageType + " file not found at path: " + fullPath);
         }
     }
 

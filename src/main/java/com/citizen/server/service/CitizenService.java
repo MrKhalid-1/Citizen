@@ -73,21 +73,12 @@ public class CitizenService {
 //    }
 
     public VCitizen createResource(VCitizen vCitizen, MultipartFile imageFile, MultipartFile nationalIdFile) throws IOException {
-        // Step 1: Map View to Entity
         TCitizen tCitizen = mapViewToEntity(vCitizen);
-
-        // Step 2: Save the citizen
-//        TCitizen savedCitizen = citizenRepository.save(tCitizen);
-
-        // Step 3: Generate the unique code
         String uniqueCode = generateRandomString(6);
         tCitizen.setUniqueCode(uniqueCode);
         sendCurrentPassword(uniqueCode,vCitizen.getEmail());
         tCitizen.setStatus(AppConstants.Status.valueOf("PENDING"));
-
-        // Step 2: Save the citizen
         TCitizen savedCitizen = citizenRepository.save(tCitizen);
-
         List<VFamilyMember> retMembers = new ArrayList<>();
         for (VFamilyMember familyMember : vCitizen.getFamilyMembers()) {
             System.out.println(savedCitizen.getId() + "  saved citizen id");
@@ -97,7 +88,6 @@ public class CitizenService {
         }
         vCitizen.setFamilyMembers(retMembers);
 
-        // Step 4: Save images and store their paths
         if (imageFile != null && !imageFile.isEmpty()) {
             String imagePath = saveFile(imageFile, "image", savedCitizen.getId());
             savedCitizen.setImage(imagePath);
@@ -107,46 +97,33 @@ public class CitizenService {
             String nationalIdPath = saveFile(nationalIdFile, "nationalId", savedCitizen.getId());
             savedCitizen.setNationalId(nationalIdPath);
         }
-
-        // Step 5: Save the updated citizen entity
         savedCitizen = citizenRepository.save(savedCitizen);
-
-        // Step 6: Create and save TUser
         TUser tUser = new TUser();
         tUser.setName(vCitizen.getName());
         tUser.setUserName(vCitizen.getEmail());
         tUser.setEmail(vCitizen.getEmail());
         tUser.setPassword(uniqueCode);
         tUser.setUserRole(AppConstants.UserRoles.CITIZEN);
-
-        // Set creation date for TUser
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         tUser.setCreatedDate(LocalDate.now().format(formatter));
-
-        // Save the user
         userRepo.save(tUser);
-
-        // Step 7: Return the mapped view
         return mapEntityToView(savedCitizen);
     }
 
 
     private String saveFile(MultipartFile file, String subFolder, Long citizenID) throws IOException {
-        // Ensure the file is a .jpg image
-//        if (!file.getOriginalFilename().endsWith(".jpg")) {
-//            throw new IOException("Only .jpg files are allowed");
-//        }
-        String fileName = citizenID + "_" + System.currentTimeMillis() + ".jpg"; // Save as .jpg
-        Path filePath = Paths.get(storagePath, subFolder, fileName);
-        Files.createDirectories(filePath.getParent()); // Ensure the directory exists
-        file.transferTo(filePath.toFile()); // Save the file to disk
-        return filePath.toString();
+        String fileName = citizenID + "_" + System.currentTimeMillis() + ".jpg";
+        Path basePath = Paths.get(storagePath).toAbsolutePath();
+        Path filePath = basePath.resolve(subFolder).resolve(fileName);
+        Files.createDirectories(filePath.getParent());
+        file.transferTo(filePath.toFile());
+        System.out.println(basePath.relativize(filePath).toString());
+        return basePath.relativize(filePath).toString();
     }
 
-
-    public byte[] getImage(String witnessID, String imageType) throws IOException {
-        TCitizen citizen = citizenRepository.findById(Long.valueOf(witnessID))
-                .orElseThrow(() -> new IOException("Witness not found"));
+    public byte[] getImage(String citizenId, String imageType) throws IOException {
+        TCitizen citizen = citizenRepository.findById(Long.valueOf(citizenId))
+                .orElseThrow(() -> new IOException("Citizen not found"));
         String filePath = "";
         switch (imageType) {
             case "image":
@@ -155,13 +132,21 @@ public class CitizenService {
             case "nationalId":
                 filePath = citizen.getNationalId();
                 break;
+            default:
+                throw new IOException("Unknown image type: " + imageType);
         }
-
-        Path path = Paths.get(filePath);
-        if (Files.exists(path)) {
-            return Files.readAllBytes(path);
+        if (filePath == null || filePath.isEmpty()) {
+            throw new IOException(imageType + " path is empty or null for Citizen ID: " + citizenId);
+        }
+        if (filePath.startsWith("\\")) {
+            filePath = filePath.substring(1);
+        }
+        Path fullPath = Paths.get(storagePath, filePath).toAbsolutePath();
+        if (Files.exists(fullPath)) {
+            System.out.println("File exists. Reading bytes...");
+            return Files.readAllBytes(fullPath);
         } else {
-            throw new IOException(imageType + " file not found");
+            throw new IOException(imageType + " file not found at path: " + fullPath);
         }
     }
 
@@ -176,6 +161,8 @@ public class CitizenService {
 
     public VCitizen updateResource(VCitizen vCitizen) {
         TCitizen citizen = mapViewToEntity(vCitizen);
+        citizen.setImage(vCitizen.getImage());
+        citizen.setNationalId(vCitizen.getNationalId());
         TCitizen updatedCitizen = citizenRepository.save(citizen);
         return mapEntityToView(updatedCitizen);
     }
@@ -183,7 +170,6 @@ public class CitizenService {
     public VCitizen searchByCitizen(String userName) {
         TCitizen citizens = citizenRepository.findByEmail(userName);
         Long citizenId = citizens.getId();
-//        readResource(citizenId);
         TCitizen citizen = citizenRepository.findById(citizenId).orElseThrow(() -> new RuntimeException("Citizen not found"));
         return mapEntityToView(citizen);
     }
@@ -239,7 +225,7 @@ public class CitizenService {
         }
 //        citizen.setHousingStatus(vCitizen.getHousingStatus());
         citizen.setUniqueCode(vCitizen.getUniqueCode());
-        citizen.setNationalId(vCitizen.getNationalId());
+//        citizen.setNationalId(vCitizen.getNationalId());
 //        citizen.setResidenceCard(vCitizen.getResidenceCard());
 //        citizen.setPassport(vCitizen.getPassport());
 //        citizen.setVoterId(vCitizen.getVoterId());
@@ -285,40 +271,4 @@ public class CitizenService {
             throw new RuntimeException("Failed to send email. Please try again later.", e);
         }
     }
-
-//    // Get a list of all citizens with family members
-//    public List<VCitizen> getAllCitizens() {
-//        return citizenRepository.findAll().stream()
-//                .map(this::toView)
-//                .collect(Collectors.toList());
-//    }
-//
-//    // Get a single citizen by ID with family members
-//    public Optional<VCitizen> getCitizenById(Long id) {
-//        return citizenRepository.findById(id)
-//                .map(this::toView);
-//    }
-//
-//    // Update a citizen and its family members
-//    @Transactional
-//    public Optional<VCitizen> updateCitizen(Long id, VCitizen vCitizenDetails) {
-//        return citizenRepository.findById(id).map(existingCitizen -> {
-//            TCitizen updatedCitizen = toEntity(vCitizenDetails);
-//            updatedCitizen.setId(existingCitizen.getId());
-//            // Persist updates for citizen and associated family members
-//            return toView(citizenRepository.save(updatedCitizen));
-//        });
-//    }
-//
-//    // Delete a citizen and associated family members
-//    @Transactional
-//    public void deleteCitizen(Long id) {
-//        if (citizenRepository.existsById(id)) {
-//            citizenRepository.deleteById(id);
-//        } else {
-//            throw new IllegalArgumentException("Citizen with ID " + id + " not found.");
-//        }
-//    }
-//
-
 }

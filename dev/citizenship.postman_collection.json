@@ -175,6 +175,451 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "profile",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}user/profile",
+							"host": [
+								"{{baseurl}}user"
+							],
+							"path": [
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8082/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "citizen",
+			"item": [
+				{
+					"name": "get by id citizen",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}citizen/2",
+							"host": [
+								"{{baseurl}}citizen"
+							],
+							"path": [
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get by id",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}citizen/2",
+							"host": [
+								"{{baseurl}}citizen"
+							],
+							"path": [
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "search all citizen",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}citizen/search",
+							"host": [
+								"{{baseurl}}citizen"
+							],
+							"path": [
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "register",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "citizen",
+									"value": "{\n    \"name\": \"John Doe\",\n    \"mobileNo\": \"1234567890\",\n    \"email\": \"abkhalid291@gmail.com\",\n    \"area\": \"Central District\",\n    \"streetNumber\": \"12A\",\n    \"houseNumber\": \"101\",\n    \"housingStatus\": \"OWNER\",\n    \"familyMembers\": [\n        {\n            \"name\": \"Manoj\",\n            \"age\": 7\n        },\n        {\n            \"name\": \"Alice Doe\",\n            \"age\": 3\n        }\n    ]\n}\n",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/abkha/Downloads/aadharcard.jpg"
+								},
+								{
+									"key": "nationalId",
+									"type": "file",
+									"src": "/C:/Users/abkha/Downloads/citizenSinagture.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}citizen/register",
+							"host": [
+								"{{baseurl}}citizen"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "national Id",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}citizen/image/nationalId/27",
+							"host": [
+								"{{baseurl}}citizen"
+							],
+							"path": [
+								"image",
+								"nationalId",
+								"27"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "image",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}citizen/image/27",
+							"host": [
+								"{{baseurl}}citizen"
+							],
+							"path": [
+								"image",
+								"27"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "witness",
+			"item": [
+				{
+					"name": "witness by citizenid",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}witness/2",
+							"host": [
+								"{{baseurl}}witness"
+							],
+							"path": [
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46YWRtaW4="
+							},
+							{
+								"key": "Cookie",
+								"value": "JSESSIONID=F3969711B565B8C038EE98E29DCBB02C"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "witness",
+									"value": "{\"citizenId\": 27, \"name\": \"Salman akther\", \"mobileNo\": \"12345670\"}",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/abkha/Downloads/imageman.jpg"
+								},
+								{
+									"key": "nationalId",
+									"type": "file",
+									"src": "/C:/Users/abkha/Downloads/imageman.jpg"
+								},
+								{
+									"key": "witnessSignature",
+									"type": "file",
+									"src": "/C:/Users/abkha/Downloads/imageman.jpg"
+								},
+								{
+									"key": "citizenSignature",
+									"type": "file",
+									"src": "/C:/Users/abkha/Downloads/imageman.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8082/witness",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"witness"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "image",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/witness/image/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"witness",
+								"image",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "NationalId",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/witness/image/nationalId/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"witness",
+								"image",
+								"nationalId",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "witnessSignature",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/witness/image/witnessSignature/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"witness",
+								"image",
+								"witnessSignature",
+								"2"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -193,240 +638,6 @@
 					],
 					"path": [
 						"home"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "register",
-			"request": {
-				"auth": {
-					"type": "noauth"
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"John Doe\",\r\n    \"mobileNo\": \"1234567890\",\r\n    \"email\": \"abkhalid291@gmail.com\",\r\n    \"area\": \"Central District\",\r\n    \"streetNumber\": \"12A\",\r\n    \"houseNumber\": \"101\",\r\n    \"housingStatus\": \"OWNER\",\r\n    \"nationalId\": \"NATIONAL123\",\r\n    \"residenceCard\": \"RESIDENCE123\",\r\n    \"passport\": \"PASSPORT123\",\r\n    \"voterId\": \"VOTERID123\",\r\n    \"familyMembers\": [\r\n        {\r\n            \"name\": \"Manoj\",\r\n            \"age\": 7\r\n        },\r\n        {\r\n            \"name\": \"Alice Doe\",\r\n            \"age\": 3\r\n        }\r\n    ]\r\n}\r\n",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{baseurl}}citizen/register",
-					"host": [
-						"{{baseurl}}citizen"
-					],
-					"path": [
-						"register"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "search all citizen",
-			"request": {
-				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "admin",
-							"type": "string"
-						},
-						{
-							"key": "username",
-							"value": "admin",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{baseurl}}citizen/search",
-					"host": [
-						"{{baseurl}}citizen"
-					],
-					"path": [
-						"search"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "get by id citizen",
-			"request": {
-				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "admin",
-							"type": "string"
-						},
-						{
-							"key": "username",
-							"value": "admin",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{baseurl}}citizen/2",
-					"host": [
-						"{{baseurl}}citizen"
-					],
-					"path": [
-						"2"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "get by id",
-			"request": {
-				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "admin",
-							"type": "string"
-						},
-						{
-							"key": "username",
-							"value": "admin",
-							"type": "string"
-						}
-					]
-				},
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "{{baseurl}}citizen/2",
-					"host": [
-						"{{baseurl}}citizen"
-					],
-					"path": [
-						"2"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "login",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/x-www-form-urlencoded"
-					}
-				],
-				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "username",
-							"value": "admin",
-							"type": "text"
-						},
-						{
-							"key": "password",
-							"value": "admin",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "http://localhost:8082/login",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8082",
-					"path": [
-						"login"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "profile",
-			"request": {
-				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "admin",
-							"type": "string"
-						},
-						{
-							"key": "username",
-							"value": "admin",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{baseurl}}user/profile",
-					"host": [
-						"{{baseurl}}user"
-					],
-					"path": [
-						"profile"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "add witness",
-			"request": {
-				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "admin",
-							"type": "string"
-						},
-						{
-							"key": "username",
-							"value": "admin",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"citizenId\": 1,\r\n    \"name\": \"Salman akther\",\r\n    \"mobileNo\": \"12345670\",\r\n    \"card\": \"CARD123\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{baseurl}}witness",
-					"host": [
-						"{{baseurl}}witness"
 					]
 				}
 			},
